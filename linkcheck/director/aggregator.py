@@ -45,6 +45,7 @@ def new_request_session(config, cookies):
         "User-Agent": config["useragent"],
     }
     if config["cookiefile"]:
+        import pdb; pdb.set_trace()
         for cookie in ckies.from_file(config["cookiefile"]):
             session.cookies = requests.cookies.merge_cookies(session.cookies, cookie)
     return session
