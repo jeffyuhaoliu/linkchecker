@@ -124,12 +124,12 @@ class HttpUrl (internpaturl.InternPatternUrl, proxysupport.ProxySupport):
         # set the proxy, so a 407 status after this is an error
         self.set_proxy(self.aggregate.config["proxy"].get(self.scheme))
         self.construct_auth()
-        # check robots.txt
-        if not self.allows_robots(self.url):
-            self.add_info(_("Access denied by robots.txt, checked only syntax."))
-            self.set_result(_("syntax OK"))
-            self.do_check_content = False
-            return
+        # don't check robots.txt
+        # if not self.allows_robots(self.url):
+        #     self.add_info(_("Access denied by robots.txt, checked only syntax."))
+        #     self.set_result(_("syntax OK"))
+        #     self.do_check_content = False
+        #     return
         # check the http connection
         request = self.build_request()
         self.send_request(request)
