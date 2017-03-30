@@ -23,6 +23,7 @@ import requests
 import time
 import urlparse
 import random
+import cookielib
 from .. import log, LOG_CHECK, strformat, LinkCheckerError
 from .. import cookies as ckies
 from ..decorators import synchronized
@@ -45,9 +46,12 @@ def new_request_session(config, cookies):
         "User-Agent": config["useragent"],
     }
     if config["cookiefile"]:
-        import pdb; pdb.set_trace()
-        for cookie in ckies.from_file(config["cookiefile"]):
-            session.cookies = requests.cookies.merge_cookies(session.cookies, cookie)
+        entries = ckies.from_file(config["cookiefile"])
+        for entry in entries:
+            if len(entry) > 0:
+                cj = cookielib.CookieJar()
+                cj.set_cookie(entry[0])
+            session.cookies = requests.cookies.merge_cookies(session.cookies, cj)
     return session
 
 
